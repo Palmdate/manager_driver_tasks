@@ -1,13 +1,12 @@
-# README
+# manager_driver_tasks
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+Build an API server to work with geo-based tasks. Imagine that you are operating a logistics company that consists of managers and drivers. Managers can create tasks and drivers need to pick up and process the tasks nearby his location.
 
-Things you may want to cover:
+* Ruby version: 2.7
 
-* Ruby version
-
-* System dependencies
+* System dependencies: 
+  
+  Ruby on Rails: 6.0
 
 * Configuration
 
