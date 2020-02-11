@@ -5,3 +5,8 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
+require 'faker'
+Task.destroy_all
+20.times do |index|
+  Task.create(description: Faker::Lorem.sentence(20, false, 0).chop, pickup_loc: Faker::Address.full_address, deliver_loc: Faker::Address.full_address, status: 'new')
+end
