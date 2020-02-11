@@ -1,0 +1,51 @@
+<div class='nav'>
+    <ul>
+        <li>
+            <a> Welcome to <strong><%= current_driver.email %> </strong>
+            </a>
+        </li>
+        <li>
+            <a> List Tasks </a>
+        </li>
+        <li>
+            <%= link_to "Sign Out", destroy_driver_session_path, method: :delete %>
+        </li>
+    </ul>
+</div>
+
+<h1>LIST TASKS</h1><%= link_to 'Show list task near by', tasks_path, style: 'color: darkcyan' %>
+<article class="larg">
+    <% Task.where(driver_id: [nil, current_driver.id]).each do |task| %>
+        <div>
+            <h3><%= task.description %>
+                <% if task.status == 'new' %>
+                    <%= link_to 'Pick this task', edit_task_path(task), style: "color: darkgoldenrod; float: left;" %>
+                <% elsif task.status == 'assigned' %>
+                    <%= link_to 'Click to Done', update_to_done_path(task), style: "color: darkgreen; float: left;" %>
+                <% elsif task.status == 'done' %>
+                    <a style="color: darkgreen; float: left;">Done</a>
+                <% end %>
+            </h3>
+            <p><strong>Pickup: </strong><small><%= task.pickup_loc %></small></p>
+            <p><strong>Deliver: </strong><small><%= task.deliver_loc %></small></p>
+        </div>
+    <% end %>
+</article>
+
+<script>     
+ $('body').on("click", ".larg div h3", function(){
+     if ($(this).children('span').hasClass('close')) {
+         $(this).children('span').removeClass('close');
+     }
+     else {
+         $(this).children('span').addClass('close');
+     }
+     $(this).parent().children('p').slideToggle(250);
+ });
+ 
+ $('body').on("click", "nav ul li a", function(){
+     var title = $(this).data('title');
+     $('.title').children('h2').html(title);
+ });
+ 
+</script>

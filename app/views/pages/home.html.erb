@@ -1,0 +1,12 @@
+<% if current_driver %>
+    <%=render :template => "driver/index" %>    
+<% elsif current_manager %>
+    <%=render :template => "manager/index" %>
+<% else %>
+    <div class="grid">
+        <div class="form__field login" style="display: inline-grid;">
+            <%= link_to "Sign In", new_driver_session_path %>
+            <%= link_to  "Sign Up", new_driver_registration_path %>
+        </div>
+    </div>
+<% end %> 

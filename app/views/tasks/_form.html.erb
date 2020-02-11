@@ -1,0 +1,113 @@
+<div class="grid">
+    <%= form_with(model: task, local: true) do |form| %>
+        <% if task.errors.any? %>
+            <div id="error_explanation">
+                <h2><%= pluralize(task.errors.count, "error") %> prohibited this task from being saved:</h2>
+
+                <ul>
+                    <% task.errors.full_messages.each do |message| %>
+                        <li><%= message %></li>
+                    <% end %>
+                </ul>
+            </div>
+        <% end %>
+        <div class="field">
+            <%= label_tag ("Description: ") %><br>
+            <%= text_field_tag :description %>
+        </div>
+        <div class="field">
+            <%= label_tag ("Pickup Location: ") %><br>
+            <%= text_field_tag :pickup_loc, "", :id => "autocomplete", :placeholder => "Enter your pickup location" %>
+        </div>
+        <div class="field">
+            <%= label_tag ("Drop Location: ") %><br>
+            <%= text_field_tag :deliver_loc, "", :id => "autocomplete2", :placeholder => "Enter your dropoff location" %>
+        </div>
+        <div class="actions">
+            <%= form.submit %>
+        </div>
+    <% end %>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDU5mKV4oCZcxKQfOka5Mz5LlcqS3eB2YU&libraries=places&signed_in=true&callback=initMap"></script>
+    <script type="text/javascript">
+     var placeSearch,autocomplete;
+     function initMap() {
+         autocomplete = new google.maps.places.Autocomplete(document.getElementById('autocomplete'));
+         google.maps.event.addListener(autocomplete, 'place_changed', function() {
+             fillInAddress();
+         });
+
+         autocomplete2 = new google.maps.places.Autocomplete(document.getElementById('autocomplete2'));
+         google.maps.event.addListener(autocomplete2, 'place_changed', function() {
+             fillInAddress();
+         });
+     }
+     function fillInAddress() {
+         var place = autocomplete.getPlace();
+
+         for (var component in component_form) {
+             document.getElementById(component).value = "";
+             document.getElementById(component).disabled = false;
+         }
+
+         for (var j = 0; j < place.address_components.length; j++) {
+             var att = place.address_components[j].types[0];
+             if (component_form[att]) {
+                 var val = place.address_components[j][component_form[att]];
+                 document.getElementById(att).value = val;
+             }
+         }
+     }
+    </script>
+    <style>
+     form {
+         padding: 20px 0;
+         position: relative;
+         z-index: 2;
+     }
+     form input {
+         -webkit-appearance: none;
+         -moz-appearance: none;
+         appearance: none;
+         outline: 0;
+         border: 1px solid rgba(255, 255, 255, 0.4);
+         background-color: rgba(255, 255, 255, 0.2);
+         width: 250px;
+         border-radius: 3px;
+         padding: 10px 15px;
+         margin: 0 auto 10px auto;
+         display: block;
+         text-align: center;
+         font-size: 18px;
+         color: white;
+         -webkit-transition-duration: 0.25s;
+         transition-duration: 0.25s;
+         font-weight: 300;
+     }
+     form input:hover {
+         background-color: rgba(255, 255, 255, 0.4);
+     }
+     form input:focus {
+         background-color: white;
+         width: 300px;
+         color: #53e3a6;
+     }
+     form button {
+         -webkit-appearance: none;
+         -moz-appearance: none;
+         appearance: none;
+         outline: 0;
+         background-color: white;
+         border: 0;
+         padding: 10px 15px;
+         color: #53e3a6;
+         border-radius: 3px;
+         width: 250px;
+         cursor: pointer;
+         font-size: 18px;
+         -webkit-transition-duration: 0.25s;
+         transition-duration: 0.25s;
+     }
+     form button:hover {
+         background-color: #f5f7f9;
+     }
+    </style>
